@@ -6,7 +6,7 @@
 /*   By: mperetia <mperetia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 01:12:13 by mperetia          #+#    #+#             */
-/*   Updated: 2024/04/29 01:24:13 by mperetia         ###   ########.fr       */
+/*   Updated: 2024/05/06 20:10:07 by mperetia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 
 bool	is_digit(int c)
 {
-	return (c >= '0' && c <= '9');
-}
-
-void	print_error_mes(char *mes)
-{
-	printf("%s\n", mes);
-	exit(1);
+	return ((c >= '0' && c <= '9') || c == '+');
 }
 
 unsigned long long	get_time_now(void)
@@ -34,35 +28,58 @@ unsigned long long	get_time_now(void)
 	return (time_millisecond);
 }
 
-void	check_arguments(int ac, bool *is_more_params)
+void	ft_bzero(void *buf, size_t len)
 {
-	if (ac < 5 || ac > 6)
-	{
-		printf("%d\n", ac);
-		print_error_mes("Problem with arguments");
-	}
-	else
-	{
-		if (ac == 6)
-			*is_more_params = true;
-	}
-}
+	size_t	i;
+	char	*result;
 
-void	check_digit(char **av)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	while (av[i])
+	i = 0;
+	result = (char *)buf;
+	while (i < len)
 	{
-		j = 0;
-		while (av[i][j])
-		{
-			if(!is_digit(av[i][j]))
-				print_error_mes("Prarams need only digits");
-			j++;
-		}
+		result[i] = '\0';
 		i++;
 	}
+	buf = (void *)result;
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	unsigned char	*ptr;
+	size_t			total_size;
+
+	total_size = count * size;
+	ptr = (void *)malloc(total_size);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, total_size);
+	return (ptr);
+}
+
+int	ft_atoi(const char *str)
+
+{
+	int	i;
+	int	minus;
+	int	result;
+
+	i = 0;
+	result = 0;
+	minus = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		++i;
+	if (str[i] == '-')
+	{
+		minus = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while ((str[i] >= 48 && str[i] <= 57) && str[i] != '\0')
+	{
+		result *= 10;
+		result += str[i] - 48;
+		++i;
+	}
+	return (result * minus);
 }
