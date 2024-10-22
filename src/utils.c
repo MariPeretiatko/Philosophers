@@ -6,7 +6,7 @@
 /*   By: mperetia <mperetia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 01:12:13 by mperetia          #+#    #+#             */
-/*   Updated: 2024/05/06 20:10:07 by mperetia         ###   ########.fr       */
+/*   Updated: 2024/05/10 01:24:15 by mperetia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,7 @@
 
 bool	is_digit(int c)
 {
-	return ((c >= '0' && c <= '9') || c == '+');
-}
-
-unsigned long long	get_time_now(void)
-{
-	struct timeval		tv;
-	unsigned long long	time_millisecond;
-
-	gettimeofday(&tv, NULL);
-	time_millisecond = tv.tv_sec * 1000;
-	time_millisecond += tv.tv_usec / 1000;
-	return (time_millisecond);
+	return (c >= '0' && c <= '9');
 }
 
 void	ft_bzero(void *buf, size_t len)

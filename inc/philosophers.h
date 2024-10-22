@@ -6,7 +6,7 @@
 /*   By: mperetia <mperetia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 18:16:22 by mperetia          #+#    #+#             */
-/*   Updated: 2024/05/07 21:06:25 by mperetia         ###   ########.fr       */
+/*   Updated: 2024/05/10 03:00:55 by mperetia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct s_program	t_program;
 
 typedef struct s_philo
 {
-	bool					is_die;
 	int						number;
 	pthread_t				thread;
 	pthread_mutex_t			*fork1;
@@ -51,7 +50,7 @@ typedef struct s_philo
 	int						count_eat;
 	bool					finish;
 	long int				start;
-	long int				start_eat;
+	long int				end_eat;
 	t_program				*program;
 
 }							t_philo;
@@ -63,26 +62,41 @@ typedef struct s_program
 	int						time_to_eat;
 	int						time_to_sleep;
 	int						count_eat;
+	bool					is_die;
 	t_philo					**philos;
 	pthread_mutex_t			print;
 	pthread_mutex_t			*fork;
+	struct timeval			time;
 }							t_program;
 
-int							ft_atoi(const char *str);
-void						*ft_calloc(size_t count, size_t size);
-bool						is_digit(int c);
+// philosopher_state
+
+bool						check_philo_one(t_philo *philo);
+bool						check_philo_die(t_philo *philo, long int time);
+void						take_forks_in_queue(t_philo *philo);
+
+// philosopher_actions
+void						print_info(t_philo *philo, enum e_info type_info);
+void						*thread_func(void *tmp);
+
+// error
 bool						print_error_mes(char *mes);
-unsigned long long			get_time_now(void);
-void						check_arguments(int ac, bool *is_more_params);
-void						check_digit(char **av);
+bool						check_arguments(int ac, bool *is_more_params);
+bool						check_digit(char **av);
+
+// utils
+bool						is_digit(int c);
+void						*ft_calloc(size_t count, size_t size);
+int							ft_atoi(const char *str);
+
+// utils_usleep
+long						get_time(struct timeval time);
+void						ft_usleep(int time);
 
 void						init(t_program *program, char *av[],
 								bool is_more_params);
-void						*thread_func(void *tmp);
 
-void						print_info(t_philo *philo, enum e_info type_info);
-
-void						join_all_threads(t_program *program);
+// free
 void						free_all(t_program *program);
 
 #endif
